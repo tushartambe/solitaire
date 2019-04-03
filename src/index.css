@@ -13,11 +13,13 @@ code {
     monospace;
 }
 .open-cards {
+  position: fixed;
+  left: 200px;
+  top: 10px;
   padding: auto;
   margin-left: 10px;
   font-size: 200px;
 
-  position: absolute;
   width: 142.5px;
   height: 222px;
   line-height: 0.9;
@@ -33,7 +35,6 @@ code {
 
 .card {
   padding: auto;
-  margin-left: 10px;
   font-size: 200px;
 
   position: absolute;
@@ -45,13 +46,16 @@ code {
 
   border: 1px solid black;
   border-radius: 30px;
-  /* display: flex; */
+  display: flex;
 
   cursor: move;
   background-color: lightgreen;
 }
 
 .deck {
+  position: fixed;
+  left: 10px;
+  top: 10px;
   font-size: 40px;
   margin-left: 10px;
 
@@ -64,10 +68,9 @@ code {
   background-color: lightgrey;
   border: 1px solid black;
   border-radius: 30px;
-  /* display: flex; */
+  display: flex;
 
   cursor: pointer;
-  /* textsele */
 }
 
 .drop-here {
@@ -84,7 +87,14 @@ code {
   background-color: yellow;
   border: 1px solid black;
   border-radius: 30px;
-  /* display: flex; */
-
+  display: flex;
   cursor: pointer;
+  margin-left: 50px;
+}
+
+.place-here {
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-around;
+  margin-left: 400px;
 }

@@ -47,16 +47,36 @@ class StartGame extends React.Component {
   returnCards() {
     return (
       <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <div className={"deck"} onClick={this.displayCurrentCard}>
+        <div className="deck" onClick={this.displayCurrentCard}>
           Deck
         </div>
         <div className="open-cards" id="open-cards" />
-        <div
-          id="drop-here"
-          className="drop-here"
-          onDrop={this.handleDrop}
-          onDragOver={this.allowDrop}
-        />
+        <div className="place-here">
+          <div
+            id="drop-here"
+            className="drop-here"
+            onDrop={this.handleDrop}
+            onDragOver={this.allowDrop}
+          />
+          <div
+            id="drop-here"
+            className="drop-here"
+            onDrop={this.handleDrop}
+            onDragOver={this.allowDrop}
+          />
+          <div
+            id="drop-here"
+            className="drop-here"
+            onDrop={this.handleDrop}
+            onDragOver={this.allowDrop}
+          />
+          <div
+            id="drop-here"
+            className="drop-here"
+            onDrop={this.handleDrop}
+            onDragOver={this.allowDrop}
+          />
+        </div>
       </div>
     );
   }
