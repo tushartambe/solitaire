@@ -46,36 +46,86 @@ class StartGame extends React.Component {
 
   returnCards() {
     return (
-      <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <div className="deck" onClick={this.displayCurrentCard}>
-          Deck
+      <div>
+        {" "}
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <div className="deck" onClick={this.displayCurrentCard}>
+            Deck
+          </div>
+          <div className="open-cards" id="open-cards" />
+          <div className="place-here">
+            <div
+              id="drop-here"
+              className="drop-here"
+              onDrop={this.handleDrop}
+              onDragOver={this.allowDrop}
+            />
+            <div
+              id="drop-here"
+              className="drop-here"
+              onDrop={this.handleDrop}
+              onDragOver={this.allowDrop}
+            />
+            <div
+              id="drop-here"
+              className="drop-here"
+              onDrop={this.handleDrop}
+              onDragOver={this.allowDrop}
+            />
+            <div
+              id="drop-here"
+              className="drop-here"
+              onDrop={this.handleDrop}
+              onDragOver={this.allowDrop}
+            />
+          </div>
         </div>
-        <div className="open-cards" id="open-cards" />
-        <div className="place-here">
-          <div
-            id="drop-here"
-            className="drop-here"
-            onDrop={this.handleDrop}
-            onDragOver={this.allowDrop}
-          />
-          <div
-            id="drop-here"
-            className="drop-here"
-            onDrop={this.handleDrop}
-            onDragOver={this.allowDrop}
-          />
-          <div
-            id="drop-here"
-            className="drop-here"
-            onDrop={this.handleDrop}
-            onDragOver={this.allowDrop}
-          />
-          <div
-            id="drop-here"
-            className="drop-here"
-            onDrop={this.handleDrop}
-            onDragOver={this.allowDrop}
-          />
+        <hr />
+        <div>
+          <div className="pile-lots">
+            <div
+              id="piles"
+              className="piles"
+              onDrop={this.handleDrop}
+              onDragOver={this.allowDrop}
+            />
+            <div
+              id="piles"
+              className="piles"
+              onDrop={this.handleDrop}
+              onDragOver={this.allowDrop}
+            />
+            <div
+              id="piles"
+              className="piles"
+              onDrop={this.handleDrop}
+              onDragOver={this.allowDrop}
+            />
+            <div
+              id="piles"
+              className="piles"
+              onDrop={this.handleDrop}
+              onDragOver={this.allowDrop}
+            />
+            <div
+              id="piles"
+              className="piles"
+              onDrop={this.handleDrop}
+              onDragOver={this.allowDrop}
+            />
+            <div
+              id="piles"
+              className="piles"
+              onDrop={this.handleDrop}
+              onDragOver={this.allowDrop}
+            />
+            <div
+              id="piles"
+              className="piles"
+              onDrop={this.handleDrop}
+              onDragOver={this.allowDrop}
+            />
+          </div>
         </div>
       </div>
     );
