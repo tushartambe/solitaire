@@ -1,5 +1,5 @@
-import Cards from "./Cards";
-import Deck from "./Deck";
+import Cards from './Cards';
+import Deck from './Deck';
 
 class Game {
   constructor() {
