@@ -12,3 +12,79 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.open-cards {
+  padding: auto;
+  margin-left: 10px;
+  font-size: 200px;
+
+  position: absolute;
+  width: 142.5px;
+  height: 222px;
+  line-height: 0.9;
+
+  text-align: center;
+
+  border: 1px solid black;
+  border-radius: 30px;
+  display: flex;
+
+  background-color: #f2f2f2;
+}
+
+.card {
+  padding: auto;
+  margin-left: 10px;
+  font-size: 200px;
+
+  position: absolute;
+  width: 140px;
+  height: 220px;
+  line-height: 0.9;
+
+  text-align: center;
+
+  border: 1px solid black;
+  border-radius: 30px;
+  /* display: flex; */
+
+  cursor: move;
+  background-color: lightgreen;
+}
+
+.deck {
+  font-size: 40px;
+  margin-left: 10px;
+
+  width: 142.5px;
+  height: 222px;
+
+  line-height: 5;
+  text-align: center;
+
+  background-color: lightgrey;
+  border: 1px solid black;
+  border-radius: 30px;
+  /* display: flex; */
+
+  cursor: pointer;
+  /* textsele */
+}
+
+.drop-here {
+  font-size: 200px;
+
+  margin-left: 10px;
+
+  width: 142.5px;
+  height: 222px;
+
+  line-height: 0.9;
+  text-align: center;
+
+  background-color: yellow;
+  border: 1px solid black;
+  border-radius: 30px;
+  /* display: flex; */
+
+  cursor: pointer;
+}
