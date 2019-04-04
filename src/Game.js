@@ -1,20 +1,24 @@
 import Cards from './Cards';
 import Deck from './Deck';
+import Piles from './piles';
 import lodash from 'lodash';
 
 class Game {
   constructor() {
     this.cards = new Cards().getCards();
-    this.copiedCards = new Cards().getCards();
     this.deck = new Deck(this.createDeck());
+    this.deckCardIndex = 0;
   }
 
   createDeck() {
-    return lodash.shuffle(this.copiedCards).splice(0, 28);
+    let shuffledCards = lodash.shuffle(this.cards).splice(0, 24);
+    let remainingCards = lodash.difference(this.cards, shuffledCards);
+    this.piles = new Piles(remainingCards).getPiles();
+    return shuffledCards;
   }
 
-  createPiles() {
-    return;
+  getPiles() {
+    return this.piles;
   }
 
   getCards() {

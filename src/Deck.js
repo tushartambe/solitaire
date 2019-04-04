@@ -1,11 +1,14 @@
 class Deck {
   constructor(cards) {
     this.cards = cards;
+    this.cardIndex = 0;
   }
 
   drawCard() {
-    let cardIndex = Math.floor(Math.random() * this.cards.length) + 1;
-    return this.cards.splice(cardIndex, 1)[0];
+    if (this.cardIndex > this.cards.length) this.cardIndex = 0;
+    this.cardIndex++;
+    return this.cards[this.cardIndex];
   }
 }
+
 export default Deck;
