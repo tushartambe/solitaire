@@ -55,9 +55,8 @@ const Card = function(card) {
   let div = document.createElement('div');
   div.innerHTML = card.unicode;
   div.className = 'card';
-  div.id = 'drag_' + card.number;
+  div.id = 'card_' + card.number;
   div.style.color = card.symbol.color;
-
   div.setAttribute('draggable', true);
   div.ondragstart = handleDrag;
   return div;
@@ -73,6 +72,8 @@ class StartGame extends React.Component {
 
   displayCurrentCard() {
     let card = new Game().drawCardFromDeck();
+    console.log(new Game().deck);
+
     let divElelmet = document.getElementById('open-cards');
     let div = Card(card);
     divElelmet.appendChild(div);
