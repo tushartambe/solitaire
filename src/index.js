@@ -25,7 +25,14 @@ const handleDropOnPile = function(event) {
   let data = event.dataTransfer.getData('text');
   let draggedCard = document.getElementById(data);
 
-  event.target.appendChild(draggedCard);
+  let draggedCardType = draggedCard.id.split('_')[2];
+  let targetPileType = event.target.id;
+
+  if (targetPileType.split('_')[0] == 'piles') {
+    event.target.appendChild(draggedCard);
+    return;
+  }
+  // event.target.appendChild(draggedCard);
 };
 
 const allowDrop = function(event) {
@@ -127,21 +134,25 @@ class StartGame extends React.Component {
 
   displayCurrentCard() {
     let card = this.game.drawCardFromDeck();
+    console.log(this.state.openCards);
     this.state.openCards.push(card);
     this.setState({
       openCards: this.state.openCards
     });
+    console.log(this.state.openCards);
   }
 
   returnCards() {
     return (
       <div>
-        <div className='top-section'>
-          <div className='deck' onClick={this.displayCurrentCard}>
-            Deck
-          </div>
-          <div className='open-cards' id='open-card'>
-            <Cards cards={this.state.openCards} />
+        <div className='top-section' style={{ display: 'flex' }}>
+          <div className='deck-and-open-cards'>
+            <div className='deck' onClick={this.displayCurrentCard}>
+              Deck
+            </div>
+            <div className='open-cards' id='open-card'>
+              <Cards cards={this.state.openCards} />
+            </div>
           </div>
           <div className='place-here'>
             <Stack stack={this.game.stack} />
