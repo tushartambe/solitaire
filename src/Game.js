@@ -1,7 +1,7 @@
-import Cards from './Cards';
-import Deck from './Deck';
-import Piles from './piles';
-import lodash from 'lodash';
+import Cards from "./Cards";
+import Deck from "./Deck";
+import Piles from "./piles";
+import lodash from "lodash";
 
 class Game {
   constructor() {
