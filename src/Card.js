@@ -1,7 +1,8 @@
 class Card {
-  constructor(number, symbol, unicode) {
+  constructor(number, type, color, unicode) {
     this.number = number;
-    this.symbol = symbol;
+    this.type = type;
+    this.color = color;
     this.unicode = unicode;
     this.draggableCards = [];
   }

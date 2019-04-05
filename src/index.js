@@ -5,21 +5,23 @@ import Game from "./Game";
 
 const handleDrag = function(card, event) {
   event.dataTransfer.setData("text", event.target.id);
+  card.draggingFrom = event.target.parentNode.id;
+  event.dataTransfer.setData("cardDetails", JSON.stringify(card));
 };
 
 const handleDrop = function(game, event) {
   event.preventDefault();
   let data = event.dataTransfer.getData("text");
+  let card = event.dataTransfer.getData("cardDetails");
   let draggedCard = document.getElementById(data);
-  let draggedCardType = draggedCard.id.split("_")[2];
+  // let draggedCardType = draggedCard.id.split("_")[2];
   let targetStackType = event.target.id;
-
-  if (targetStackType == draggedCardType) {
+  if (game.dropCard(card, targetStackType)) {
     event.target.appendChild(draggedCard);
   }
 };
 
-const handleDropOnPile = function(event) {
+const handleDropOnPile = function(game, event) {
   event.preventDefault();
   let data = event.dataTransfer.getData("text");
   let draggedCard = document.getElementById(data);
@@ -34,36 +36,45 @@ const handleDropOnPile = function(event) {
   // event.target.appendChild(draggedCard);
 };
 
-const allowDrop = function(event) {
+const allowDrop = function(game, event) {
   event.preventDefault();
 };
 
 const Pile = function(props) {
   let { cards } = props;
   let cardsHtml = [];
-  for (let i = 0; i < cards.length - 1; i++) {
+
+  let defaultUnicode = "\u{1F0A0}";
+  const accessibleCards = cards.getAccessibleCards();
+  const restrictedCards = cards.getRestrictedCards();
+  for (let i1 = 0; i1 < restrictedCards.length; i1++) {
     cardsHtml.push(
       <Card
-        card={cards[i]}
+        card={restrictedCards[i1]}
         classname={"pile-card"}
         draggable={false}
-        unicode={cards[i].unicode}
+        unicode={defaultUnicode}
+        key={"restricted " + i1}
       />
     );
   }
-  cardsHtml.push(
-    <Card
-      card={cards[cards.length - 1]}
-      classname={"pile-card"}
-      draggable={true}
-      unicode={cards[cards.length - 1].unicode}
-    />
-  );
+
+  for (let i1 = 0; i1 < accessibleCards.length; i1++) {
+    cardsHtml.push(
+      <Card
+        card={accessibleCards[i1]}
+        classname={"pile-card"}
+        draggable={true}
+        unicode={accessibleCards[i1].unicode}
+        key={"accessible " + i1}
+      />
+    );
+  }
   return cardsHtml;
 };
 
 const Piles = function(props) {
-  let { piles } = props;
+  let { game, piles } = props;
   let output = [];
   for (let i = 0; i < piles.length; i++) {
     let div = (
@@ -71,8 +82,8 @@ const Piles = function(props) {
         id={`piles_${i}`}
         key={`piles_${i}`}
         className="piles"
-        onDrop={handleDropOnPile}
-        onDragOver={allowDrop}
+        onDrop={handleDropOnPile.bind(null, game)}
+        onDragOver={allowDrop.bind(null, game)}
       >
         <Pile cards={piles[i]} />
       </div>
@@ -83,28 +94,33 @@ const Piles = function(props) {
 };
 
 const Suit = function(props) {
-  const { suitName } = props;
-
-  return (
-    <div
-      id={suitName}
-      key={suitName}
-      className="drop-here"
-      onDrop={handleDrop}
-      onDragOver={allowDrop}
-    >
-      {suitName}
-    </div>
+  const { suit } = props;
+  const suitHtml = [];
+  suitHtml.push(
+    <Cards
+      cards={suit.getAccessibleCards()}
+      draggable={true}
+      key={"accessible-suit"}
+    />
   );
+  suitHtml.push(
+    <Cards
+      cards={suit.getRestrictedCards()}
+      draggable={false}
+      key={"restricted-suit"}
+    />
+  );
+  return suitHtml;
 };
 
 const Stack = function(props) {
-  const { stack } = props;
+  const { stack, game } = props;
+  const deck = stack.getDeck();
   const stackHtml = [];
-  stackHtml.push(<Suit suit={stack["heart"]} suitName={"heart"} />);
-  stackHtml.push(<Suit suit={stack["spade"]} suitName={"spade"} />);
-  stackHtml.push(<Suit suit={stack["diamond"]} suitName={"diamond"} />);
-  stackHtml.push(<Suit suit={stack["club"]} suitName={"club"} />);
+  stackHtml.push(<Suit suit={deck["heart"]} suitName={"heart"} game={game} />);
+  stackHtml.push(<Suit suit={deck["spade"]} suitName={"spade"} />);
+  stackHtml.push(<Suit suit={deck["diamond"]} suitName={"diamond"} />);
+  stackHtml.push(<Suit suit={deck["club"]} suitName={"club"} />);
   return stackHtml;
 };
 
@@ -112,9 +128,9 @@ const Card = function(props) {
   let { card, classname, draggable, unicode } = props;
   return (
     <div
-      id={`card_${card.number}_${card.symbol.type}`}
+      id={`card_${card.number}_${card.type}`}
       className={classname}
-      style={{ color: card.symbol.color }}
+      style={{ color: card.color }}
       draggable={draggable}
       onDragStart={handleDrag.bind(null, card)}
       dangerouslySetInnerHTML={{ __html: `${unicode}` }}
@@ -138,6 +154,45 @@ const Cards = function(props) {
   return cardsHtml;
 };
 
+const Deck = function(props) {
+  const { deck, game } = props;
+  const { heart, diamond, club, spade } = deck.getDeck();
+  const deckHtml = [];
+  deckHtml.push(
+    <div className="drop-here" key={"heart"} id="heart">
+      heart
+      <Suit suit={heart} />
+    </div>
+  );
+  deckHtml.push(
+    <div className="drop-here" key={"diamond"} id="diamond">
+      diamond
+      <Suit suit={diamond} />
+    </div>
+  );
+  deckHtml.push(
+    <div className="drop-here" key={"club"} id="club">
+      club
+      <Suit suit={club} />
+    </div>
+  );
+  deckHtml.push(
+    <div className="drop-here" key={"spade"} id="spade">
+      spade
+      <Suit suit={spade} />
+    </div>
+  );
+  return (
+    <div
+      className="place-here"
+      onDrop={handleDrop.bind(null, game)}
+      onDragOver={allowDrop.bind(null, game)}
+    >
+      {deckHtml}
+    </div>
+  );
+};
+
 class StartGame extends React.Component {
   constructor(props) {
     super(props);
@@ -146,25 +201,21 @@ class StartGame extends React.Component {
     this.returnCards = this.returnCards.bind(this);
     this.displayCurrentCard = this.displayCurrentCard.bind(this);
     this.deck = this.game.deck;
-    this.state = { openCards: [], piles: this.game.piles };
-    this.drop = this.drop.bind(this);
+    this.state = {
+      openCards: [],
+      piles: this.game.piles,
+      deck: this.game.cardDeck.getDeck
+    };
   }
 
   displayCurrentCard() {
     let card = this.game.drawCardFromDeck();
-    console.log(this.state.openCards);
+    // console.log(this.state.openCards);
     this.state.openCards.push(card);
     this.setState({
       openCards: this.state.openCards
     });
-    console.log(this.state.openCards);
-  }
-
-  drop(event) {
-    handleDrop(this.game, event);
-    this.setState({
-      piles: this.game.piles
-    });
+    // console.log(this.state.openCards);
   }
 
   returnCards() {
@@ -180,13 +231,13 @@ class StartGame extends React.Component {
             </div>
           </div>
           <div className="place-here">
-            <Stack stack={this.game.stack} />
+            <Deck deck={this.game.cardDeck} game={this.game} />
           </div>
         </div>
         <hr />
         <div className="bottom-section">
           <div className="pile-lots">
-            <Piles piles={this.game.piles} />
+            <Piles piles={this.game.piles} game={this.game} />
           </div>
         </div>
       </div>

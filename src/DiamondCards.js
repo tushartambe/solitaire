@@ -1,10 +1,10 @@
-import Card from './Card';
-import Symbol from './Symbol';
+import Card from "./Card";
+import Symbol from "./Symbol";
 
 class DiamondCards {
   constructor() {
-    this.color = 'RED';
-    this.type = 'diamond';
+    this.color = "RED";
+    this.type = "diamond";
     this.cards = this.createCards();
   }
 
@@ -13,8 +13,7 @@ class DiamondCards {
     let unicodeNum = 127169;
     for (let index = 1; index < 14; index++) {
       let unicode = `&#${unicodeNum}`;
-      let symbol = new Symbol(this.type, this.color);
-      cards.push(new Card(index, symbol, unicode));
+      cards.push(new Card(index, this.type, this.color, unicode));
       unicodeNum++;
     }
     return cards;
