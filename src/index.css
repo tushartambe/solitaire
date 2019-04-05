@@ -12,112 +12,96 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 .open-cards {
-  position: fixed;
-  left: 200px;
-  top: 10px;
   padding: auto;
   margin-left: 10px;
 
-  width: 200px;
-  height: 250px;
+  width: 50%;
+  height: 60%;
 
   text-align: center;
 
   border: 1px solid black;
-  border-radius: 30px;
+  border-radius: 2%;
   display: flex;
-
   background-color: #f2f2f2;
 }
 
-.card {
-  font-size: 200px;
-
-  position: absolute;
-  width: 140px;
-  height: 220px;
-  /* line-height: 0.9; */
-
-  text-align: center;
-
-  border: 1px solid black;
-  border-radius: 30px;
-  display: flex;
-
-  cursor: move;
-  background-color: lightgreen;
-}
-
-.pile-card {
-  padding: auto;
-  font-size: 200px;
-  margin-top: -100px;
-
-  position: relative;
-  width: 140px;
-  height: 220px;
-  line-height: 0.9;
-
-  text-align: center;
-
-  border: 1px solid black;
-  border-radius: 30px;
-  display: flex;
-
-  cursor: move;
-  background-color: lightgreen;
-}
-
 .deck {
-  position: fixed;
-  left: 10px;
-  top: 10px;
-  font-size: 40px;
   margin-left: 10px;
 
-  width: 160px;
-  height: 250px;
+  width: 50%;
+  height: 60%;
 
   line-height: 5;
   text-align: center;
 
   background-color: lightgrey;
   border: 1px solid black;
-  border-radius: 30px;
+  border-radius: 2%;
   display: flex;
 
   cursor: pointer;
 }
 
+.card {
+  font-size: 90px;
+  position: absolute;
+  width: 63px;
+  height: 85px;
+  line-height: 0.7;
+
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 0px;
+  display: flex;
+  cursor: move;
+  background-color: lightgreen;
+}
+
+.pile-card {
+  padding: auto;
+  font-size: 90px;
+  margin-top: -20px;
+
+  width: 63px;
+  height: 85px;
+  line-height: 0.7;
+
+  position: relative;
+
+  text-align: center;
+
+  border: 1px solid black;
+  display: flex;
+
+  cursor: move;
+  background-color: lightgreen;
+}
+
 .drop-here {
-  font-size: 30px;
+  font-size: 16px;
 
-  margin-left: 10px;
-
-  width: 200px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
 
   line-height: 0.9;
   text-align: center;
 
   background-color: darkcyan;
   border: 1px solid black;
-  border-radius: 30px;
   cursor: pointer;
   margin-left: 50px;
 }
 
 .place-here {
   display: flex;
-  margin-top: 10px;
   justify-content: space-around;
-  margin-left: 400px;
 }
 
 .pile-lots {
   display: flex;
-  margin-top: 10px;
   justify-content: space-evenly;
   margin-left: 0px;
 }
@@ -125,28 +109,30 @@ code {
 .piles {
   font-size: 20px;
   width: 142.5px;
-  height: 222px;
+  height: 500px;
 
-  line-height: 0.9;
-  text-align: center;
-
-  background-color: lightblue;
   border: 1px solid black;
-  border-radius: 30px;
+  border-radius: 2%;
 
   cursor: pointer;
-
   display: flex;
   flex-direction: column;
 }
 
-.top-section {
-  display: 'flex';
-  justify-content: 'space-around';
+.deck-and-open-cards {
+  width: 200px;
+  height: 200px;
+
+  display: flex;
+  justify-content: space-between;
 }
 
 .bottom-section {
   display: 'flex';
   justify-content: 'space-around';
-  margin-top: 100px;
+  margin-top: 50px;
+}
+
+.top-section {
+  /* display: flex; */
 }
