@@ -3,14 +3,29 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Game from './Game';
 
-const handleDrag = function(event) {
+const handleDrag = function(card, event) {
   event.dataTransfer.setData('text', event.target.id);
 };
 
 const handleDrop = function(event) {
   event.preventDefault();
-  var data = event.dataTransfer.getData('text');
-  event.target.appendChild(document.getElementById(data));
+  let data = event.dataTransfer.getData('text');
+  let draggedCard = document.getElementById(data);
+  let draggedCardType = draggedCard.id.split('_')[2];
+  let targetStackType = event.target.id;
+
+  if (targetStackType == draggedCardType) {
+    event.target.appendChild(draggedCard);
+    return;
+  }
+};
+
+const handleDropOnPile = function(event) {
+  event.preventDefault();
+  let data = event.dataTransfer.getData('text');
+  let draggedCard = document.getElementById(data);
+
+  event.target.appendChild(draggedCard);
 };
 
 const allowDrop = function(event) {
@@ -20,7 +35,7 @@ const allowDrop = function(event) {
 const Pile = function(props) {
   let { cards } = props;
   return cards.map(card => {
-    return <Card card={card} />;
+    return <Card card={card} classname={'pile-card'} />;
   });
 };
 
@@ -33,7 +48,7 @@ const Piles = function(props) {
         id={`piles_${i}`}
         key={`piles_${i}`}
         className='piles'
-        onDrop={handleDrop}
+        onDrop={handleDropOnPile}
         onDragOver={allowDrop}
       >
         <Pile cards={piles[i]} />
@@ -44,35 +59,59 @@ const Piles = function(props) {
   return output;
 };
 
+const Suit = function(props) {
+  const { suitName } = props;
+
+  return (
+    <div
+      id={suitName}
+      key={suitName}
+      className='drop-here'
+      onDrop={handleDrop}
+      onDragOver={allowDrop}
+    >
+      {suitName}
+    </div>
+  );
+};
+
 const Stack = function(props) {
-  let output = [];
-  for (let i = 1; i <= props.size; i++) {
-    let div = (
-      <div
-        id={`stack_${i}`}
-        key={`stack_${i}`}
-        className='drop-here'
-        onDrop={handleDrop}
-        onDragOver={allowDrop}
-      />
-    );
-    output.push(div);
-  }
-  return output;
+  const { stack } = props;
+  const stackHtml = [];
+  stackHtml.push(<Suit suit={stack['heart']} suitName={'heart'} />);
+  stackHtml.push(<Suit suit={stack['spade']} suitName={'spade'} />);
+  stackHtml.push(<Suit suit={stack['diamond']} suitName={'diamond'} />);
+  stackHtml.push(<Suit suit={stack['club']} suitName={'club'} />);
+  return stackHtml;
 };
 
 const Card = function(props) {
-  let { card } = props;
+  let { card, classname } = props;
   return (
     <div
-      id={`card_${card.number}`}
-      className='card'
+      id={`card_${card.number}_${card.symbol.type}`}
+      className={classname}
       style={{ color: card.symbol.color }}
       draggable={true}
-      onDragStart={handleDrag}
+      onDragStart={handleDrag.bind(null, card)}
       dangerouslySetInnerHTML={{ __html: `${card.unicode}` }}
     />
   );
+};
+
+const Cards = function(props) {
+  const { cards } = props;
+  const cardsHtml = [];
+  for (let index = 0; index < cards.length; index++) {
+    cardsHtml.push(
+      <Card
+        classname={'card'}
+        card={cards[index]}
+        unicode={cards[index].unicode}
+      />
+    );
+  }
+  return cardsHtml;
 };
 
 class StartGame extends React.Component {
@@ -83,16 +122,15 @@ class StartGame extends React.Component {
     this.returnCards = this.returnCards.bind(this);
     this.displayCurrentCard = this.displayCurrentCard.bind(this);
     this.deck = this.game.deck;
+    this.state = { openCards: [] };
   }
 
   displayCurrentCard() {
     let card = this.game.drawCardFromDeck();
-    console.log(this.game.piles);
-    console.log(this.game.deck);
-
-    let divElelmet = document.getElementById('open-cards');
-    let div = Card(card);
-    divElelmet.appendChild(div);
+    this.state.openCards.push(card);
+    this.setState({
+      openCards: this.state.openCards
+    });
   }
 
   returnCards() {
@@ -102,13 +140,15 @@ class StartGame extends React.Component {
           <div className='deck' onClick={this.displayCurrentCard}>
             Deck
           </div>
-          <div className='open-cards' id='open-cards' />
+          <div className='open-cards' id='open-card'>
+            <Cards cards={this.state.openCards} />
+          </div>
           <div className='place-here'>
-            <Stack size={4} />
+            <Stack stack={this.game.stack} />
           </div>
         </div>
         <hr />
-        <div>
+        <div className='bottom-section'>
           <div className='pile-lots'>
             <Piles piles={this.game.piles} />
           </div>

@@ -8,6 +8,7 @@ class Game {
     this.cards = new Cards().getCards();
     this.deck = new Deck(this.createDeck());
     this.deckCardIndex = 0;
+    this.stack = { heart: [], diamond: [], club: [], spade: [] };
   }
 
   createDeck() {

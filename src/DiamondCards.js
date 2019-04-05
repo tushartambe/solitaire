@@ -4,7 +4,7 @@ import Symbol from './Symbol';
 class DiamondCards {
   constructor() {
     this.color = 'RED';
-    this.type = 'DIAMOND';
+    this.type = 'diamond';
     this.cards = this.createCards();
   }
 

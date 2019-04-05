@@ -4,7 +4,7 @@ import Symbol from './Symbol';
 class SpadeCards {
   constructor() {
     this.color = 'BLACK';
-    this.type = 'SPADE';
+    this.type = 'spade';
     this.cards = this.createCards();
   }
 
